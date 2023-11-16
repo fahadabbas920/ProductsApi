@@ -5,6 +5,7 @@ const bcrypt = require("bcrypt");
 const signup = async (req, res) => {
   const { error, value } = validateLogin(req.body);
   if (error) {
+    
     return res.status(400).json({ success: false, message: error.message });
   }
 
