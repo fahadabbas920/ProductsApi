@@ -16,19 +16,19 @@ import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 function App() {
-  const [loggedUser, setloggedUser] = useState("");
+  // const [loggedUser, setloggedUser] = useState("");
   return (
     <div className="App">
       <ToastContainer />
       <Routes>
-        <Route path="/" element={<Login setloggedUser={setloggedUser} />} />
+        <Route path="/" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/account_recovery" element={<AccountRecovery />}>
           <Route path="find_email" element={<FindEmail />} />
           <Route path="secret_question" element={<SecretQuestion />} />
           <Route path="set_newpassword" element={<SetNewPassword />} />
         </Route>
-        <Route path="/panel" element={<Panel loggedUser={loggedUser} />}>
+        <Route path="/panel" element={<Panel />}>
           <Route path="products" element={<Main />} />
           <Route path="add" element={<AddProduct />} />
           <Route path=":id" element={<Product />} />

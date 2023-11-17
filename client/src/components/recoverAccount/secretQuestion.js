@@ -9,7 +9,7 @@ const SecretQuestion = () => {
   //   console.log(state);
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
-    questionVal: "",
+    questionVal: "FP",
     answerVal: "",
   });
   const submit = async (event) => {
@@ -44,10 +44,12 @@ const SecretQuestion = () => {
             {/* <Select options={options} /> */}
             <select
               onChange={(e) => {
+                console.log(credentials);
                 setCredentials((state) => {
                   return { ...state, questionVal: e.target.value };
                 });
               }}
+              defaultValue="FP"
             >
               <option value="FP">First pet name?</option>
               <option value="FC">Favourite city?</option>
@@ -60,6 +62,7 @@ const SecretQuestion = () => {
               name="secretAnswer"
               type="text"
               onChange={(e) => {
+                console.log(credentials)
                 setCredentials((state) => {
                   return { ...state, answerVal: e.target.value };
                 });

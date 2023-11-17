@@ -5,8 +5,7 @@ const bcrypt = require("bcrypt");
 const signup = async (req, res) => {
   const { error, value } = validateLogin(req.body);
   if (error) {
-    
-    return res.status(400).json({ success: false, message: error.message });
+    return res.status(422).json({ success: false, message: error.message });
   }
 
   try {
@@ -22,6 +21,8 @@ const signup = async (req, res) => {
     await DBUsers.create({
       email: value.email,
       password: encryptedPassword,
+      questionVal: value.questionVal,
+      answerVal: value.answerVal,
     });
     return res
       .status(200)

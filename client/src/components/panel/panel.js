@@ -3,14 +3,14 @@ import Navbar from "./navbar";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
-const Panel = ({ loggedUser }) => {
+const Panel = () => {
   const token = localStorage.getItem("token");
   // const [user, setUser] = useState("");
   const navigate = useNavigate();
   const render = (
     <>
       {/* <Navbar user={products.user} /> */}
-      <Navbar user={loggedUser} />
+      <Navbar />
       <div className="main-container">
         <Outlet />
       </div>

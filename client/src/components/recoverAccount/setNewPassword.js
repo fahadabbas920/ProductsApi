@@ -1,4 +1,4 @@
-import { Link, useNavigate, useLocation } from "react-router-dom";
+import { Link,  useLocation } from "react-router-dom";
 import { useState } from "react";
 import stringSimilarity from "string-similarity";
 import axios from "axios";
@@ -6,7 +6,7 @@ import axios from "axios";
 const SetNewPassword = () => {
   const location = useLocation();
   const { state } = location;
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     newPass: "",
     reNewPass: "",

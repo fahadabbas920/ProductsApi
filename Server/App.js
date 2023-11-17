@@ -5,6 +5,7 @@ const authorize = require("./middlewares/authorize.js");
 const product = require("./routes/product.js");
 const login = require("./routes/login.js");
 const signup = require("./routes/signup.js");
+const pass_recovery = require("./routes/pass_recovery.js");
 require("dotenv").config();
 const app = express();
 
@@ -16,6 +17,7 @@ app.use("/login", login);
 app.use("/signup", signup);
 app.use("/api/v1/product", authorize);
 app.use("/api/v1/product", product);
+app.use("/api/v1/account_recovery", pass_recovery);
 app.get("*", (req, res) => {
   res.status(404).json({ success: false, message: "Invalid Api Request" });
 });

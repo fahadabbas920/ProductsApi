@@ -40,6 +40,7 @@ const Product = () => {
         };
       }
     },
+    refetchOnWindowFocus: false,
   });
 
   const updateMutation = useMutation({
@@ -83,32 +84,33 @@ const Product = () => {
     },
   });
 
-  return (
-    <>
-      {singleproduct?.isFetching && singleproduct.isError && (
-        <div className="product" style={{ textAlign: "center" }}>
-          <pre>Error something went wrong...</pre>
-        </div>
-      )}
-      {singleproduct?.isFetching && (
-        <div className="product" style={{ textAlign: "center" }}>
-          <h2>Loading...</h2>
-        </div>
-      )}
-      {singleproduct?.isSuccess && (
-        <ProductForm
-          product={product}
-          setProduct={setProduct}
-          submit={updateMutation.mutate}
-          details={{
-            name: "Product details",
-            button: "Save",
-          }}
-          handleDelete={deleteMutation.mutate}
-        />
-      )}
-    </>
-  );
+  if (singleproduct.isFetching) {
+    return (
+      <div className="product" style={{ textAlign: "center" }}>
+        <h2>Loading...</h2>
+      </div>
+    );
+  } else if (singleproduct.isError) {
+    return (
+      <div className="product" style={{ textAlign: "center" }}>
+        <pre>Error something went wrong...</pre>
+      </div>
+    );
+  }
+   else if (singleproduct.isFetched && singleproduct.isSuccess) {
+    return (
+      <ProductForm
+        product={product}
+        setProduct={setProduct}
+        submit={updateMutation.mutate}
+        details={{
+          name: "Product details",
+          button: "Save",
+        }}
+        handleDelete={deleteMutation.mutate}
+      />
+    );
+  }
 };
 
 export default Product;

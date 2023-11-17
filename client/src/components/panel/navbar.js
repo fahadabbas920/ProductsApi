@@ -2,8 +2,9 @@ import logo from "../../assets/logo-removebg.png";
 import { Link, useNavigate } from "react-router-dom";
 import { useQueryClient } from "@tanstack/react-query";
 
-const Navbar = ({ user }) => {
+const Navbar = () => {
   const query = useQueryClient();
+  const user = localStorage.getItem("user");
   // console.log("====================================");
   // console.log(query.getQueryData(["products"]));
   // console.log("====================================");

@@ -75,33 +75,35 @@ const Main = () => {
           Limit:{" "}
         </label>
       </form>
-
-      {/* <div className="product"> */}
-      {products?.isLoading && <h2 style={style}>Loading...</h2>}
-      {products?.isError && <pre style={style}>Something went wrong...</pre>}
-      {products?.data?.data?.length === 0 && (
-        <h2 style={style}>No Products Found</h2>
-      )}
-      {products?.isSuccess &&
-        products?.data?.data?.map((product) => {
-          return (
-            <div className="product" key={product._id}>
-              <div className="product-heading">
-                <h2>{product?.model}</h2>
-                <span> $ {product?.price}</span>
+      {products.isFetching && <h2 style={style}>Loading...</h2>}
+      {products.isError && <pre style={style}>Something went wrong...</pre>}
+      {products.isFetched &&
+      !products.isFetching &&
+      products.isSuccess &&
+      !!products?.data?.data?.length
+        ? products?.data?.data?.map((product) => {
+            return (
+              <div className="product" key={product._id}>
+                <div className="product-heading">
+                  <h2>{product?.model}</h2>
+                  <span> $ {product?.price}</span>
+                </div>
+                <p>{product?.description}</p>
+                <button
+                  onClick={() => {
+                    navigate(`/panel/${product._id}`);
+                  }}
+                >
+                  view/edit
+                </button>
               </div>
-              <p>{product?.description}</p>
-              <button
-                onClick={() => {
-                  navigate(`/panel/${product._id}`);
-                }}
-              >
-                view/edit
-              </button>
-            </div>
-          );
-        })}
-      {/* </div> */}
+            );
+          })
+        : products.isFetched &&
+          !products.isFetching &&
+          products.isSuccess &&
+          products?.data?.data?.length === 0 &&
+          !products.isLoading && <h2 style={style}>No Products Found</h2>}
     </>
   );
 };

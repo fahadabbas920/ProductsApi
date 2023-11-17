@@ -5,7 +5,6 @@ const ProductForm = ({
   details,
   handleDelete,
 }) => {
-  //   console.log(product);
   return (
     <form onSubmit={submit}>
       <h3>{details.name}</h3>

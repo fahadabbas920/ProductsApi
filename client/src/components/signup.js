@@ -9,6 +9,8 @@ const Signup = () => {
   const [credentials, setCredentials] = useState({
     email: "",
     password: "",
+    questionVal: "FP",
+    answerVal: "",
   });
 
   const submit = async (e) => {
@@ -25,7 +27,12 @@ const Signup = () => {
       if (!error.response) {
         toast.error("No Response from the server");
       } else {
-        toast.error(error?.response?.data?.message);
+        // console.log(error.response);
+        const errA = error?.response?.data?.message.split(".");
+        // console.log(errA)
+        errA.forEach((err) => {
+          toast.error(err);
+        });
       }
       // toast(error.response.data.message);
     }

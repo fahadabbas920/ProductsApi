@@ -4,7 +4,7 @@ import Form from "./form";
 import axios from "axios";
 import { toast } from "react-toastify";
 
-const Login = ({ setloggedUser }) => {
+const Login = () => {
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     email: "",
@@ -17,8 +17,7 @@ const Login = ({ setloggedUser }) => {
 
       if (data.data.token) {
         localStorage.setItem("token", `Bearer ${data.data.token}`);
-        setloggedUser(data.data.email);
-        // toast.success("Logged in Succesfully");
+        localStorage.setItem("user", data.data.email);
         setCredentials({ email: "", password: "" });
         navigate("/panel/products", { state: { email: data.data.email } });
       }
