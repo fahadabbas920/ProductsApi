@@ -1,4 +1,4 @@
-import { Link,  useLocation } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 import { useState } from "react";
 import stringSimilarity from "string-similarity";
 import axios from "axios";
@@ -75,6 +75,22 @@ const SetNewPassword = () => {
           </div>
         </form>
       </div>
+
+      {/* <div className="card-container">
+        Main Title
+        <div className="card-row">
+          <div className="card-img-container">
+            <img src="" alt="img-" />
+          </div>
+          description
+        </div>
+        <div className="card-row">
+          <div className="card-img-container">
+            <img src="" alt="img-" />
+          </div>
+          description
+        </div>
+      </div> */}
     </>
   );
 };

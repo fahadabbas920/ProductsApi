@@ -17,10 +17,10 @@ const findMail = async (req, res) => {
         .status(404)
         .json({ succes: false, message: "Email Address Not Found" });
     }
-    return res.status(302).json({ succes: true, email: mail });
+    return res.status(200).json({ succes: true, email: mail });
   } catch (error) {
     return res
-      .status(404)
+      .status(500)
       .json({ success: false, message: "Internal Server Error" });
   }
 };

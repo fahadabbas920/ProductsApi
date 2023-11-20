@@ -6,7 +6,7 @@ const SecretQuestion = () => {
   const formRef = useRef();
   const location = useLocation();
   const { state } = location;
-  //   console.log(state);
+  console.log(state);
   const navigate = useNavigate();
   const [credentials, setCredentials] = useState({
     questionVal: "FP",
@@ -21,9 +21,11 @@ const SecretQuestion = () => {
     // console.log(data);
     // console.log({ email: state.email, ...credentials });
     //////////////////////////////////////
-    navigate("/account_recovery/set_newpassword", {
-      state: { email: state.email, ...credentials },
-    });
+    // navigate("/account_recovery/set_newpassword", {
+    //   state: { email: state.email, ...credentials },
+    // });
+    //////////////////////////////////////
+
     // console.log(credentials);
     // try {
     //   const data = await axios.post(`http://localhost:5000/`, {
@@ -62,7 +64,7 @@ const SecretQuestion = () => {
               name="secretAnswer"
               type="text"
               onChange={(e) => {
-                console.log(credentials)
+                console.log(credentials);
                 setCredentials((state) => {
                   return { ...state, answerVal: e.target.value };
                 });
