@@ -1,5 +1,5 @@
 import Navbar from "./navbar";
-// import Footer from "./footer";
+import Footer from "./footer";
 import { Outlet, useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 
@@ -14,7 +14,7 @@ const Panel = () => {
       <div className="main-container">
         <Outlet />
       </div>
-      {/* <Footer /> */}
+      <Footer />
     </>
   );
   useEffect(() => {

@@ -15,26 +15,22 @@ const Signup = () => {
 
   const submit = async (e) => {
     e.preventDefault();
-    console.log(credentials);
     try {
-      const data = await axios.post(
-        "http://localhost:5000/signup",
-        credentials
-      );
+      const data = await axios.post("http://localhost:5000/signup", {
+        ...credentials,
+        answerVal: credentials.answerVal.toLowerCase(),
+      });
       toast.success(data.data.message);
       navigate("/");
     } catch (error) {
       if (!error.response) {
         toast.error("No Response from the server");
       } else {
-        // console.log(error.response);
         const errA = error?.response?.data?.message.split(".");
-        // console.log(errA)
         errA.forEach((err) => {
           toast.error(err);
         });
       }
-      // toast(error.response.data.message);
     }
   };
 
