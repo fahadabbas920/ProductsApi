@@ -14,11 +14,6 @@ const SecretQuestion = () => {
   });
   const submit = async (event) => {
     event.preventDefault();
-    // console.log(event);
-    // const form = event.target;
-    // const formData = new FormData(event.target);
-    // const data = Object.fromEntries(formData);
-    // console.log(data);
     // console.log({ email: state.email, ...credentials });
     //////////////////////////////////////
     // navigate("/account_recovery/set_newpassword", {
