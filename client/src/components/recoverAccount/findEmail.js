@@ -8,22 +8,23 @@ const FindEmail = () => {
   const [credentials, setCredentials] = useState("");
   const submit = async (event) => {
     event.preventDefault();
-
-    // console.log(credentials);
     try {
       const data = await axios.post(
         `http://localhost:5000/api/v1/account_recovery/find_mail`,
         { email: credentials }
       );
-      // console.log(data?.data?.email[0]?.email);
       navigate("/account_recovery/secret_question", {
-        state: { email: data?.data?.email[0]?.email },
+        state: {
+          email: data?.data?.email[0]?.email,
+          success: data.data.success,
+        },
       });
     } catch (error) {
       if (!error.response) {
         toast.error("No Response from the server");
+      } else {
+        toast.error(error?.response.data.message);
       }
-      toast.error(error?.response.data.message);
     }
   };
   return (

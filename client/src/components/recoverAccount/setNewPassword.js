@@ -1,12 +1,19 @@
-import { Link, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import stringSimilarity from "string-similarity";
 import axios from "axios";
+import { toast } from "react-toastify";
 
 const SetNewPassword = () => {
+  const navigate = useNavigate();
   const location = useLocation();
   const { state } = location;
-  // const navigate = useNavigate();
+  useEffect(() => {
+    if (!state?.success) {
+      navigate("/account_recovery/secret_question");
+    }
+  }, []);
+
   const [credentials, setCredentials] = useState({
     newPass: "",
     reNewPass: "",
@@ -18,79 +25,73 @@ const SetNewPassword = () => {
       credentials.reNewPass
     );
     if (similarity === 1) {
-      console.log(credentials);
-      console.log(state);
       try {
-        const data = await axios.post(`http://localhost:5000/`, {
-          credentials,
-        });
-        console.log(data);
+        const data = await axios.post(
+          `http://localhost:5000/api/v1/account_recovery/change_pass`,
+          {
+            ...state,
+            ...credentials,
+          }
+        );
+        toast.success(data.data.message);
+        navigate("/");
       } catch (error) {
         console.log(error);
+        if (!error.response) {
+          toast.error("No Response from the server");
+        } else {
+          toast.error(error.response.data.message);
+        }
       }
     } else {
-      console.log("Password not similar");
+      toast.error("Password is not identical");
     }
   };
   return (
     <>
-      <div className="login-container">
-        <form onSubmit={submit}>
-          <h3>Recover Account</h3>
-          <label>
-            New Password
-            <input
-              name="newPassword"
-              type="password"
-              onChange={(e) => {
-                setCredentials((state) => {
-                  return { ...state, newPass: e.target.value };
-                });
-              }}
-              value={credentials.newPass}
-              autoComplete="off"
-            />
-          </label>
-          <label>
-            Re-type New Password
-            <input
-              name="ReEnterNewPassword"
-              type="password"
-              onChange={(e) => {
-                setCredentials((state) => {
-                  return { ...state, reNewPass: e.target.value };
-                });
-              }}
-              value={credentials.reNewPass}
-              autoComplete="off"
-            />
-          </label>
-          <button onClick={submit}>Recover</button>
-          <div>
-            <pre>
-              <Link to={"/"}>Login</Link>
-              &nbsp;&nbsp;&nbsp;
-              <Link to={"/signup"}>Sign up</Link>
-            </pre>
-          </div>
-        </form>
-      </div>
-
-      {/* <div className="card-container">
-        Main Title
-        <div className="card-row">
-          <div className="card-img-container">
-            <img src="" alt="img-" />
-          </div>
-          description
+      {state?.success && (
+        <div className="login-container">
+          <form onSubmit={submit}>
+            <h3>Recover Account</h3>
+            <label>
+              New Password
+              <input
+                name="newPassword"
+                type="password"
+                onChange={(e) => {
+                  setCredentials((state) => {
+                    return { ...state, newPass: e.target.value };
+                  });
+                }}
+                value={credentials.newPass}
+                autoComplete="off"
+              />
+            </label>
+            <label>
+              Re-type New Password
+              <input
+                name="ReEnterNewPassword"
+                type="password"
+                onChange={(e) => {
+                  setCredentials((state) => {
+                    return { ...state, reNewPass: e.target.value };
+                  });
+                }}
+                value={credentials.reNewPass}
+                autoComplete="off"
+              />
+            </label>
+            <button onClick={submit}>Recover</button>
+            <div>
+              <pre>
+                <Link to={"/"}>Login</Link>
+                &nbsp;&nbsp;&nbsp;
+                <Link to={"/signup"}>Sign up</Link>
+              </pre>
+            </div>
+          </form>
         </div>
-        <div className="card-row">
-          <div className="card-img-container">
-            <img src="" alt="img-" />
-          </div>
-          description
-        </div>
-      </div> */}
+      )}
     </>
   );
 };

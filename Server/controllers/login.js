@@ -21,7 +21,7 @@ const login = async (req, res) => {
         .json({ success: false, message: `Incorrect email or password` });
     }
     const token = jwt.sign(req.body, process.env.JWT_SECRET, {
-      expiresIn: "3d",
+      expiresIn: "1m",
     });
     return res.status(200).json({
       success: true,
