@@ -29,7 +29,7 @@ const getAllProducts = async (req, res) => {
 const getProduct = async (req, res) => {
   const { id } = req.params;
   try {
-    const result = await DBProducts.findById(id);
+    const result = await DBProducts.findOne({ _id: id });
     if (!result) {
       return res.status(404).json({
         success: false,
@@ -42,6 +42,7 @@ const getProduct = async (req, res) => {
       data: result,
     });
   } catch (error) {
+    console.log(error);
     return res.status(500).json({ success: false, message: error });
   }
 };

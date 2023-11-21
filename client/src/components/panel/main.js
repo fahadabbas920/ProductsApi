@@ -1,7 +1,9 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
+// import authfetch from "../../utilities/axiosInterceptors";
+// import authfetch from "../../axios/global";
 
 const Main = () => {
   const queryClient = useQueryClient();
@@ -25,11 +27,17 @@ const Main = () => {
       );
       return data?.data;
     },
+    retry: 0,
     refetchOnWindowFocus: false,
   });
-
   const style = { textAlign: "center", color: "white" };
 
+  // useEffect(() => {
+  //   if (products?.error?.response?.status === 440) {
+  //     queryClient.clear();
+  //     navigate("/unauthorized");
+  //   }
+  // });
   return (
     <>
       <form className="filter-form">
@@ -76,7 +84,9 @@ const Main = () => {
         </label>
       </form>
       {products.isFetching && <h2 style={style}>Loading...</h2>}
-      {products.isError && <pre style={style}>Something went wrong...</pre>}
+      {products.isError && !products.isFetching && (
+        <pre style={style}>Something went wrong...</pre>
+      )}
       {products.isFetched &&
       !products.isFetching &&
       products.isSuccess &&
