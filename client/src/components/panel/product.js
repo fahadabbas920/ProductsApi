@@ -1,15 +1,14 @@
+import { toast } from "react-toastify";
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import axios from "axios";
-import ProductForm from "../productForm";
-import { toast } from "react-toastify";
 import { useQuery, useQueryClient, useMutation } from "@tanstack/react-query";
+import ProductForm from "../productForm";
+import customAxios from "../../axios/customAxiosAPI";
 
 const Product = () => {
   const query = useQueryClient();
   const navigate = useNavigate();
   const { id } = useParams();
-  const token = localStorage.getItem("token");
   const [product, setProduct] = useState({
     model: "",
     price: "",
@@ -19,14 +18,7 @@ const Product = () => {
   const singleproduct = useQuery({
     queryKey: ["products", id],
     queryFn: async () => {
-      const data = await axios.get(
-        `http://localhost:5000/api/v1/product/${id}`,
-        {
-          headers: {
-            authorization: token,
-          },
-        }
-      );
+      const data = await customAxios.get(`/product/${id}`);
       if (data.status === 200) {
         setProduct({
           model: data.data.data.model,
@@ -47,24 +39,12 @@ const Product = () => {
   const updateMutation = useMutation({
     mutationFn: async (event) => {
       event.preventDefault();
-      return await axios.put(
-        `http://localhost:5000/api/v1/product/${id}`,
-        product,
-        {
-          headers: {
-            authorization: token,
-          },
-        }
-      );
+      return await customAxios.put(`/product/${id}`, product);
     },
     onSuccess: (data) => {
       toast.success(data.data.message);
     },
     onError: (error) => {
-      // if (error.response.status === 440) {
-      //   query.clear();
-      //   navigate("/unauthorized");
-      // }
       error?.response?.data?.message?.forEach((msg) => {
         toast.error(msg.message);
       });
@@ -73,11 +53,7 @@ const Product = () => {
 
   const deleteMutation = useMutation({
     mutationFn: async (event) => {
-      return await axios.delete(`http://localhost:5000/api/v1/product/${id}`, {
-        headers: {
-          authorization: token,
-        },
-      });
+      return await customAxios.delete(`/product/${id}`);
     },
     onSuccess: (data) => {
       toast.success(data?.data?.message);
@@ -85,10 +61,6 @@ const Product = () => {
       query.removeQueries({ queryKey: ["products", id] });
     },
     onError: (error) => {
-      // if (error.response.status === 440) {
-      //   query.clear();
-      //   navigate("/unauthorized");
-      // }
       toast(error?.response?.data?.message);
     },
   });

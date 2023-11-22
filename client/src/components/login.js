@@ -13,14 +13,19 @@ const Login = () => {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      const data = await axios.post("http://localhost:5000/login", credentials);
+      const data = await axios.post("http://192.168.18.189:5000/login", credentials);
 
       if (data.data.token) {
         localStorage.setItem("token", `Bearer ${data.data.token}`);
         localStorage.setItem("user", data.data.email);
+      }
+      const token = localStorage.getItem("token");
+      if (!!token) {
         setCredentials({ email: "", password: "" });
         navigate("/panel/products", { state: { email: data.data.email } });
       }
+
+      /////////////////////////////////////////////IF TOKEN SET THEN NAVIGATE/////////////////////////////////////////////////////////
     } catch (error) {
       if (!error.response) {
         toast.error("No Response from the server");

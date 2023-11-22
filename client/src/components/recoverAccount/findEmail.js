@@ -10,7 +10,7 @@ const FindEmail = () => {
     event.preventDefault();
     try {
       const data = await axios.post(
-        `http://localhost:5000/api/v1/account_recovery/find_mail`,
+        `http://192.168.18.189:5000/api/v1/account_recovery/find_mail`,
         { email: credentials }
       );
       navigate("/account_recovery/secret_question", {

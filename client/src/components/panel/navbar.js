@@ -5,14 +5,17 @@ import { useQueryClient } from "@tanstack/react-query";
 const Navbar = () => {
   const query = useQueryClient();
   const user = localStorage.getItem("user");
-  // console.log("====================================");
-  // console.log(query.getQueryData(["products"]));
-  // console.log("====================================");
   const navigate = useNavigate();
   return (
     <div className="navbar-container">
       <div className="navbar-left">
-        <img src={logo} alt="" />
+        <img
+          src={logo}
+          alt=""
+          onClick={() => {
+            navigate("/panel/products");
+          }}
+        />
         <span>Products</span>
         <ul>
           <li>
@@ -27,7 +30,7 @@ const Navbar = () => {
         <span>{user}</span>
         <button
           onClick={() => {
-            localStorage.removeItem("token");
+            localStorage.clear();
             query.clear();
             navigate("/");
           }}

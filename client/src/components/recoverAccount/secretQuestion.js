@@ -1,6 +1,5 @@
 import { useLocation, useNavigate, Link } from "react-router-dom";
 import { useState, useRef, useEffect } from "react";
-// import Select from "react-select";
 import axios from "axios";
 import { toast } from "react-toastify";
 
@@ -13,7 +12,7 @@ const SecretQuestion = () => {
     if (!state?.success) {
       navigate("/account_recovery/find_email");
     }
-  }, []);
+  }, [navigate, state]);
   const [credentials, setCredentials] = useState({
     questionVal: "FP",
     answerVal: "",
@@ -22,7 +21,7 @@ const SecretQuestion = () => {
     event.preventDefault();
     try {
       const data = await axios.post(
-        `http://localhost:5000/api/v1/account_recovery/security_ques`,
+        `http://192.168.18.189:5000/api/v1/account_recovery/security_ques`,
         {
           ...state,
           ...credentials,
@@ -50,7 +49,6 @@ const SecretQuestion = () => {
             <h3>Recover Account</h3>
             <label>
               Secret question:
-              {/* <Select options={options} /> */}
               <select
                 onChange={(e) => {
                   console.log(credentials);
@@ -96,5 +94,3 @@ const SecretQuestion = () => {
 };
 
 export default SecretQuestion;
-
-// $2b$10$.myRhcAoUp2tCXMmFOBn3OleVFRSCcpe9FV4FPL7jfPrZrKDdIfaq
