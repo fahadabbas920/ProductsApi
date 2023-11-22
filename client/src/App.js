@@ -14,8 +14,11 @@ import SecretQuestion from "./components/recoverAccount/secretQuestion";
 import SetNewPassword from "./components/recoverAccount/setNewPassword";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import NotFound from "./components/notFound";
+import UnAuthorized from "./components/unauthorized";
 
 function App() {
+  // const navigate = useNavigate()
   // const [loggedUser, setloggedUser] = useState("");
   return (
     <div className="App">
@@ -33,6 +36,8 @@ function App() {
           <Route path="add" element={<AddProduct />} />
           <Route path=":id" element={<Product />} />
         </Route>
+        <Route path="*" element={<NotFound />} />
+        <Route path="unauthorized" element={<UnAuthorized />} />
       </Routes>
     </div>
   );

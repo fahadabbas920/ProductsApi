@@ -40,6 +40,7 @@ const Product = () => {
         };
       }
     },
+    retry: 0,
     refetchOnWindowFocus: false,
   });
 
@@ -60,6 +61,10 @@ const Product = () => {
       toast.success(data.data.message);
     },
     onError: (error) => {
+      // if (error.response.status === 440) {
+      //   query.clear();
+      //   navigate("/unauthorized");
+      // }
       error?.response?.data?.message?.forEach((msg) => {
         toast.error(msg.message);
       });
@@ -80,6 +85,10 @@ const Product = () => {
       query.removeQueries({ queryKey: ["products", id] });
     },
     onError: (error) => {
+      // if (error.response.status === 440) {
+      //   query.clear();
+      //   navigate("/unauthorized");
+      // }
       toast(error?.response?.data?.message);
     },
   });
@@ -96,8 +105,7 @@ const Product = () => {
         <pre>Error something went wrong...</pre>
       </div>
     );
-  }
-   else if (singleproduct.isFetched && singleproduct.isSuccess) {
+  } else if (singleproduct.isFetched && singleproduct.isSuccess) {
     return (
       <ProductForm
         product={product}

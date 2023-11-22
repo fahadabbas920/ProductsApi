@@ -36,14 +36,24 @@ const AddProduct = () => {
     onError: (error) => {
       if (!error.response) {
         toast.error("No Response from the server");
-      } else {
+      } 
+      // else if (error.response.status === 440) {
+      //   query.clear();
+      //   navigate("/unauthorized");
+      // } 
+      else {
         error.response.data.message.forEach((msg) => {
           toast.error(msg.message);
         });
       }
     },
   });
-
+  // useEffect(() => {
+  //   if (products?.error?.response?.status === 440) {
+  //     query.clear();
+  //     navigate("/unauthorized");
+  //   }
+  // });
   return (
     <>
       <ProductForm
