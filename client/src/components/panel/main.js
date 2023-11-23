@@ -1,13 +1,11 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
-// import authfetch from "../../utilities/axiosInterceptors";
-// import authfetch from "../../axios/global";
+import customAxios from "../../axios/customAxiosAPI";
 
 const Main = () => {
   const queryClient = useQueryClient();
-  const token = localStorage.getItem("token");
+  // const token = localStorage.getItem("token");
   const navigate = useNavigate();
   const [query, setQuery] = useState({
     model: "",
@@ -16,12 +14,12 @@ const Main = () => {
   const products = useQuery({
     queryKey: ["products", { model: query.model, limit: query.limit }],
     queryFn: async ({ signal }) => {
-      const data = await axios.get(
-        `http://localhost:5000/api/v1/product/?model=${query.model}&limit=${query.limit}`,
+      const data = await customAxios.get(
+        `/product/?model=${query.model}&limit=${query.limit}`,
         {
-          headers: {
-            authorization: token,
-          },
+          // headers: {
+          //   authorization: token,
+          // },
           signal,
         }
       );

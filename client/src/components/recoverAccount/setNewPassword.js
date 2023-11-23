@@ -12,7 +12,7 @@ const SetNewPassword = () => {
     if (!state?.success) {
       navigate("/account_recovery/secret_question");
     }
-  }, []);
+  }, [navigate, state]);
 
   const [credentials, setCredentials] = useState({
     newPass: "",
@@ -27,7 +27,7 @@ const SetNewPassword = () => {
     if (similarity === 1) {
       try {
         const data = await axios.post(
-          `http://localhost:5000/api/v1/account_recovery/change_pass`,
+          `http://192.168.18.189:5000/api/v1/account_recovery/change_pass`,
           {
             ...state,
             ...credentials,

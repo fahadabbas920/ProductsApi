@@ -1,5 +1,4 @@
 import "./App.css";
-import { useState } from "react";
 import { Routes, Route } from "react-router-dom";
 import Login from "./components/login";
 import Signup from "./components/signup";
@@ -18,8 +17,6 @@ import NotFound from "./components/notFound";
 import UnAuthorized from "./components/unauthorized";
 
 function App() {
-  // const navigate = useNavigate()
-  // const [loggedUser, setloggedUser] = useState("");
   return (
     <div className="App">
       <ToastContainer />

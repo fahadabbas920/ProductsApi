@@ -1,14 +1,13 @@
-import { useState } from "react";
-import axios from "axios";
-import ProductForm from "../productForm";
-import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
+import ProductForm from "../productForm";
+import customAxios from "../../axios/customAxiosAPI";
 
 const AddProduct = () => {
   const query = useQueryClient();
   const navigate = useNavigate();
-  const token = localStorage.getItem("token");
   const [product, setProduct] = useState({
     model: "",
     price: "",
@@ -18,14 +17,9 @@ const AddProduct = () => {
   const createProdcuct = useMutation({
     mutationFn: async (event) => {
       event.preventDefault();
-      return await axios.post(
-        `http://localhost:5000/api/v1/product/`,
-        product,
-        {
-          headers: {
-            authorization: token,
-          },
-        }
+      return await customAxios.post(
+        `/product/`,
+        product
       );
     },
     onSuccess: (data) => {
@@ -36,24 +30,13 @@ const AddProduct = () => {
     onError: (error) => {
       if (!error.response) {
         toast.error("No Response from the server");
-      } 
-      // else if (error.response.status === 440) {
-      //   query.clear();
-      //   navigate("/unauthorized");
-      // } 
-      else {
+      } else {
         error.response.data.message.forEach((msg) => {
           toast.error(msg.message);
         });
       }
     },
   });
-  // useEffect(() => {
-  //   if (products?.error?.response?.status === 440) {
-  //     query.clear();
-  //     navigate("/unauthorized");
-  //   }
-  // });
   return (
     <>
       <ProductForm
