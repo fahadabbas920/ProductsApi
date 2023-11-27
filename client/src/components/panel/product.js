@@ -19,16 +19,19 @@ const Product = () => {
     queryKey: ["products", id],
     queryFn: async () => {
       const data = await customAxios.get(`/product/${id}`);
+      console.log(data);
       if (data.status === 200) {
         setProduct({
           model: data.data.data.model,
           price: data.data.data.price,
           description: data.data.data.description,
+          image: data.data.data.image,
         });
         return {
           model: data.data.data.model,
           price: data.data.data.price,
           description: data.data.data.description,
+          image: data.data.data.image,
         };
       }
     },
@@ -38,8 +41,12 @@ const Product = () => {
 
   const updateMutation = useMutation({
     mutationFn: async (event) => {
+      var form_data = new FormData();
+      for (var key in product) {
+        form_data.append(key, product[key]);
+      }
       event.preventDefault();
-      return await customAxios.put(`/product/${id}`, product);
+      return await customAxios.put(`/product/${id}`, form_data);
     },
     onSuccess: (data) => {
       toast.success(data.data.message);
@@ -64,7 +71,7 @@ const Product = () => {
       toast(error?.response?.data?.message);
     },
   });
-
+  console.log(product);
   if (singleproduct.isFetching) {
     return (
       <div className="product" style={{ textAlign: "center" }}>
@@ -79,16 +86,19 @@ const Product = () => {
     );
   } else if (singleproduct.isFetched && singleproduct.isSuccess) {
     return (
-      <ProductForm
-        product={product}
-        setProduct={setProduct}
-        submit={updateMutation.mutate}
-        details={{
-          name: "Product details",
-          button: "Save",
-        }}
-        handleDelete={deleteMutation.mutate}
-      />
+      <div className="product-page">
+        {/* <img src={`http://localhost:5000/image/${product.image}`} alt="" /> */}
+        <ProductForm
+          product={product}
+          setProduct={setProduct}
+          submit={updateMutation.mutate}
+          details={{
+            name: "Product details",
+            button: "Save",
+          }}
+          handleDelete={deleteMutation.mutate}
+        />
+      </div>
     );
   }
 };

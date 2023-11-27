@@ -10,7 +10,6 @@ require("dotenv").config();
 const app = express();
 
 app.use(cors());
-app.use(express.static("./public"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json()); // used when posting data with javscript
 app.use("/login", login);
@@ -18,8 +17,13 @@ app.use("/signup", signup);
 app.use("/api/v1/product", authorize);
 app.use("/api/v1/product", product);
 app.use("/api/v1/account_recovery", pass_recovery);
+app.use("/image", express.static("assets"));
 app.get("*", (req, res) => {
   res.status(404).json({ success: false, message: "Invalid Api Request" });
+});
+
+app.use((err, req, res, next) => {
+  res.status(400).json({ success: false, message: err });
 });
 
 const start = async () => {

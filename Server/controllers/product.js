@@ -1,5 +1,6 @@
 const DBProducts = require("../models/product");
 const { productValidator } = require("../utilities/productValidator");
+const fs = require("fs");
 //////////////////CONTROLLERS/////////////////////
 
 const getAllProducts = async (req, res) => {
@@ -56,6 +57,13 @@ const deleteProduct = async (req, res) => {
         message: `No Products found with id: ${id}`,
       });
     }
+    // console.log(result);
+    const path = `assets/${result.image}`;
+    try {
+      fs.unlinkSync(path);
+    } catch (err) {
+      console.log(err);
+    }
     return res.status(200).json({
       success: true,
       message: `Product deleted succesfully`,
@@ -71,7 +79,7 @@ const postProduct = async (req, res) => {
     return res.status(406).json({ success: false, message: error.details });
   }
   try {
-    await DBProducts.create(req.body);
+    await DBProducts.create({ ...req.body, image: req.file.filename });
     return res.status(201).json({
       success: true,
       message: `Product added succesfully`,
@@ -91,13 +99,29 @@ const updateProduct = async (req, res) => {
     });
   }
   try {
-    const result = await DBProducts.findByIdAndUpdate(id, req.body);
+    const image = await DBProducts.findOne({ _id: id }, { image: 1 });
+    const result = await DBProducts.findByIdAndUpdate(id, {
+      ...req.body,
+      image: req.file.filename,
+    });
     if (!result) {
       return res.status(404).json({
         success: false,
         message: `No Products found with id: ${id}`,
       });
     }
+
+    if (image) {
+      const path = `assets/${image.image}`;
+
+      try {
+        fs.unlinkSync(path);
+      } catch (err) {
+        console.log(err);
+      }
+      //file removed
+    }
+
     return res.status(201).json({
       success: true,
       message: `Product updated succesfully`,

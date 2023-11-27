@@ -1,7 +1,16 @@
 import axios from "axios";
 
+
+
+
+
+
+
+
+
+
 const customAxios = axios.create({
-  baseURL: "http://192.168.18.189:5000/api/v1",
+  baseURL: "http://localhost:5000/api/v1",
 });
 
 customAxios.interceptors.request.use(

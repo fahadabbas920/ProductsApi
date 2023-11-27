@@ -13,7 +13,7 @@ const Login = () => {
   const submit = async (e) => {
     e.preventDefault();
     try {
-      const data = await axios.post("http://192.168.18.189:5000/login", credentials);
+      const data = await axios.post("http://localhost:5000/login", credentials);
 
       if (data.data.token) {
         localStorage.setItem("token", `Bearer ${data.data.token}`);

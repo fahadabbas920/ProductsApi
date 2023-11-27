@@ -9,6 +9,7 @@ const productSchema = new mongoose.Schema({
     default: Date.now(),
     immutable: true,
   },
+  image: String,
 });
 
 module.exports = mongoose.model("DBProducts", productSchema);
