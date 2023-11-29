@@ -1,16 +1,19 @@
-// function errorHandler(err, req, res, next) {
-//   return res.status().json({ success: false, message: err.message });
+const { ApiErros } = require("../errors/customErrors");
+const { MulterError } = require("multer");
 
-//   // if (res.headersSent) {
-//   //   return next(err)
-//   // }
-//   // res.status(500)
-//   // res.render('error', { error: err })
-// }
-
-class AppError extends Error {
-  constructor(statusCode, message) {
-    super(message);
-    this.statusCode = statusCode;
+const errorHandlerMiddlware = (err, req, res, next) => {
+  // console.log(err);
+  if (err instanceof ApiErros) {
+    return res
+      .status(err.statusCode)
+      .json({ success: false, message: err.message });
   }
-}
+  if (err instanceof MulterError) {
+    return res.status(400).json({ success: false, message: err.code });
+  }
+  return res
+    .status(500)
+    .json({ success: false, message: "Something went wrong..." });
+};
+
+module.exports = errorHandlerMiddlware;

@@ -9,7 +9,7 @@ const ProductForm = ({
 }) => {
   return (
     <>
-      <form onSubmit={submit}>
+      <form>
         <h3>{details.name}</h3>
         <label>
           Model:
@@ -21,7 +21,6 @@ const ProductForm = ({
                 return { ...state, model: e.target.value };
               });
             }}
-            // initialvalues={product.model}
             value={product.model}
             autoComplete="false"
           />
@@ -60,30 +59,30 @@ const ProductForm = ({
         </label>
         <label>
           Upload Image:
-          {product?.img ? (
-            <img src={URL.createObjectURL(product.img)} alt="" />
-          ) : (
+          {product.image === null ? (
             <img src={preview} alt="" />
+          ) : product.image?.slice(0, 5) === "image" ? (
+            <img src={`http://localhost:5000/image/${product?.image}`} alt="" />
+          ) : (
+            <img src={URL.createObjectURL(product.image)} alt="" />
           )}
           <input
             type="file"
             onChange={(e) => {
               setProduct((state) => {
-                console.log(e.target.files[0]);
-                return { ...state, img: e.target.files[0] };
+                return { ...state, image: e.target.files[0] };
               });
             }}
             accept="image/x-png,image/gif,image/jpeg"
           />
         </label>
+        {/* {submit.} */}
         <button onClick={submit}>{details.button}</button>
         {details.button === "Save" && (
           <button onClick={handleDelete}>Delete</button>
         )}
         <div>
-          <pre>
-            {/* {details.description} <Link to={details.link}>{details.linkto}</Link> */}
-          </pre>
+          <pre></pre>
         </div>
       </form>
     </>

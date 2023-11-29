@@ -19,7 +19,6 @@ const Product = () => {
     queryKey: ["products", id],
     queryFn: async () => {
       const data = await customAxios.get(`/product/${id}`);
-      console.log(data);
       if (data.status === 200) {
         setProduct({
           model: data.data.data.model,
@@ -37,6 +36,7 @@ const Product = () => {
     },
     retry: 0,
     refetchOnWindowFocus: false,
+    // refetchOnMount: false,
   });
 
   const updateMutation = useMutation({
@@ -56,6 +56,7 @@ const Product = () => {
         toast.error(msg.message);
       });
     },
+    // refetchOnMount: false,
   });
 
   const deleteMutation = useMutation({
@@ -70,8 +71,9 @@ const Product = () => {
     onError: (error) => {
       toast(error?.response?.data?.message);
     },
+    // refetchOnMount: false,
   });
-  console.log(product);
+  // deleteMutation.isPending
   if (singleproduct.isFetching) {
     return (
       <div className="product" style={{ textAlign: "center" }}>
@@ -87,7 +89,6 @@ const Product = () => {
   } else if (singleproduct.isFetched && singleproduct.isSuccess) {
     return (
       <div className="product-page">
-        {/* <img src={`http://localhost:5000/image/${product.image}`} alt="" /> */}
         <ProductForm
           product={product}
           setProduct={setProduct}

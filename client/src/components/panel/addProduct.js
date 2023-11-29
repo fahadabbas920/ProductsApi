@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { useQueryClient, useMutation } from "@tanstack/react-query";
 import ProductForm from "../productForm";
 import customAxios from "../../axios/customAxiosAPI";
-// import productFormPreview from "../../assets/productFormPreview.jpg";
 
 const AddProduct = () => {
   const query = useQueryClient();
@@ -13,6 +12,7 @@ const AddProduct = () => {
     model: "",
     price: "",
     description: "",
+    image: null,
   });
 
   const createProdcuct = useMutation({
@@ -23,8 +23,6 @@ const AddProduct = () => {
       for (var key in product) {
         form_data.append(key, product[key]);
       }
-      console.log(form_data);
-      console.log(product);
       return await customAxios.post(`/product/`, form_data);
     },
     onSuccess: (data) => {

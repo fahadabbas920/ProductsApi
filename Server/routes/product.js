@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 const multer = require("multer");
 const path = require("path");
-// const uploadFile = require("../middlewares/multer");
 const {
   getAllProducts,
   getProduct,
@@ -35,15 +34,17 @@ const upload = multer({
     if (mimetype && extname) {
       return callback(null, true);
     } else {
-      return callback("Valid Image types are png, jpg, gif, jpeg");
+      return callback(
+        new multer.MulterError("Valid Image types are png, jpg, gif, jpeg")
+      );
     }
   },
 });
 
 router.get("/", getAllProducts);
-router.post("/", upload.single("img"), postProduct);
+router.post("/", upload.single("image"), postProduct);
 router.get("/:id", getProduct);
 router.delete("/:id", deleteProduct);
-router.put("/:id", upload.single("img"), updateProduct);
+router.put("/:id", upload.single("image"), updateProduct);
 
 module.exports = router;

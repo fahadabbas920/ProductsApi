@@ -258,7 +258,7 @@ form div {
 }
 
 
-.product-page{
+/* .product-page{
   width: 100%;
   display: flex;
   justify-content: space-around;
@@ -269,9 +269,9 @@ form div {
 .product-page img{
   border-radius: 5px;
   max-width: calc(100% - 350px);
-}
+} */
 
-
+/* 
 @media screen and (max-width: 768px) {
   .product-page{
     flex-direction: column;
@@ -282,7 +282,7 @@ form div {
     border-radius: 5px;
     max-width: calc(100%);
   }
-}
+} */
 
 .footer-container {
   max-width: 960px;
