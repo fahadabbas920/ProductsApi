@@ -1,12 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router-dom";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import customAxios from "../../axios/customAxiosAPI";
+import ProductCard from "./productCard";
 
 const Main = () => {
   const queryClient = useQueryClient();
-  // const token = localStorage.getItem("token");
-  const navigate = useNavigate();
   const [query, setQuery] = useState({
     model: "",
     limit: "",
@@ -17,9 +15,6 @@ const Main = () => {
       const data = await customAxios.get(
         `/product/?model=${query.model}&limit=${query.limit}`,
         {
-          // headers: {
-          //   authorization: token,
-          // },
           signal,
         }
       );
@@ -30,12 +25,6 @@ const Main = () => {
   });
   const style = { textAlign: "center", color: "white" };
 
-  // useEffect(() => {
-  //   if (products?.error?.response?.status === 440) {
-  //     queryClient.clear();
-  //     navigate("/unauthorized");
-  //   }
-  // });
   return (
     <>
       <form className="filter-form">
@@ -85,33 +74,20 @@ const Main = () => {
       {products.isError && !products.isFetching && (
         <pre style={style}>Something went wrong...</pre>
       )}
-      {products.isFetched &&
-      !products.isFetching &&
-      products.isSuccess &&
-      !!products?.data?.data?.length
-        ? products?.data?.data?.map((product) => {
-            return (
-              <div className="product" key={product._id}>
-                <div className="product-heading">
-                  <h2>{product?.model}</h2>
-                  <span> $ {product?.price}</span>
-                </div>
-                <p>{product?.description}</p>
-                <button
-                  onClick={() => {
-                    navigate(`/panel/${product._id}`);
-                  }}
-                >
-                  view/edit
-                </button>
-              </div>
-            );
-          })
-        : products.isFetched &&
-          !products.isFetching &&
-          products.isSuccess &&
-          products?.data?.data?.length === 0 &&
-          !products.isLoading && <h2 style={style}>No Products Found</h2>}
+      <div className="grid">
+        {products.isFetched &&
+        !products.isFetching &&
+        products.isSuccess &&
+        !!products?.data?.data?.length
+          ? products?.data?.data?.map((product) => {
+              return <ProductCard key={product._id} product={product} />;
+            })
+          : products.isFetched &&
+            products.isSuccess &&
+            products?.data?.data?.length === 0 &&
+            !products.isFetching &&
+            !products.isLoading && <h2 style={style}>No Products Found</h2>}
+      </div>
     </>
   );
 };

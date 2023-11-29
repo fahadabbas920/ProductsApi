@@ -36,7 +36,6 @@ const SetNewPassword = () => {
         toast.success(data.data.message);
         navigate("/");
       } catch (error) {
-        console.log(error);
         if (!error.response) {
           toast.error("No Response from the server");
         } else {

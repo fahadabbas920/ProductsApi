@@ -12,15 +12,18 @@ const AddProduct = () => {
     model: "",
     price: "",
     description: "",
+    image: null,
   });
 
   const createProdcuct = useMutation({
     mutationFn: async (event) => {
       event.preventDefault();
-      return await customAxios.post(
-        `/product/`,
-        product
-      );
+      var form_data = new FormData();
+
+      for (var key in product) {
+        form_data.append(key, product[key]);
+      }
+      return await customAxios.post(`/product/`, form_data);
     },
     onSuccess: (data) => {
       toast.success(data.data.message);

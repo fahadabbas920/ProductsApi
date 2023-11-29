@@ -41,7 +41,6 @@ const Form = ({ credentials, setCredentials, submit, details }) => {
             Secret question:
             <select
               onChange={(e) => {
-                console.log(credentials);
                 setCredentials((state) => {
                   return { ...state, questionVal: e.target.value };
                 });
@@ -59,7 +58,6 @@ const Form = ({ credentials, setCredentials, submit, details }) => {
               name="secretAnswer"
               type="text"
               onChange={(e) => {
-                console.log(credentials);
                 setCredentials((state) => {
                   return { ...state, answerVal: e.target.value };
                 });
